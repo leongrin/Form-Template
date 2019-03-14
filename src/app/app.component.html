@@ -5,7 +5,11 @@
         (ngSubmit)="onSubmit()"
         #f = 'ngForm'
       >
-        <div class="form-group">
+        <div
+          id="user-data"
+          ngModelGroup="userData"
+          #userData="ngModelGroup">
+          <div class="form-group" style="margin-top: 20px">
           <label>Mail Address</label>
           <input
           type="text"
@@ -18,20 +22,13 @@
           <span
             *ngIf="email.invalid && email.touched"
             class="help-block"
-            style="color: red"
           >Please provide a valid email address</span>
         </div>
-        <div>
-          <select
-            class="form-control"
-            [ngModel]="defaultValue"
-            name="subscriptions"
-          >
-            <option value="basic">Basic</option>
-            <option value="advanced">Advanced</option>
-            <option value="pro">Pro</option>
-          </select>
-        </div>
+          <button
+            class="btn btn-default"
+            type="button"
+            (click)="suggestUserName()">Suggest an Email</button>
+          <br><br>
         <div class="form-group">
           <label>Password</label>
           <input
@@ -45,15 +42,49 @@
           <span
             *ngIf="pass.touched && pass.invalid"
             class="help-block"
-            style="color: red"
           >
             Your password needs to have at least 4 characters.
           </span>
         </div>
+        </div>
+
+        <div>
+          <label>Your Subscription</label>
+          <select
+            class="form-control"
+            [ngModel]="defaultValue"
+            name="subscriptions"
+          >
+            <option value="basic">Basic</option>
+            <option value="advanced">Advanced</option>
+            <option value="pro">Pro</option>
+          </select>
+        </div>
+        <br>
+        <div class="form-group">
+          <label>Repeat as you type</label>
+          <textarea
+          name="textRepeat"
+          class="form-control"
+          rows="3"
+          [(ngModel)]="answer"
+          style="margin-bottom: 10px">
+          </textarea>
+          <span>Your reply: {{ answer }}</span>
+        </div>
+        <div class="radio" *ngFor="let gender of genders">
+          <label>
+            <input
+              type="radio"
+              name="genderSelected"
+              ngModel
+              [value]="gender">
+            {{ gender }}
+          </label>
+        </div>
         <button
           class="btn btn-primary"
           [disabled]="f.invalid"
-          (click)="onSubmit()"
         >Submit</button>
       </form>
     </div>
@@ -65,9 +96,12 @@
     *ngIf="submitted"
   >
     <h3>Here is your Data:</h3>
-    <p>Your email: {{ emailAddress }}</p>
-    <p>Your subscription: {{ sub }}</p>
-    <p>Your password: {{ password }}</p>
+    <p>Your email: {{ user.emailAddress }}</p>
+    <p>Your subscription: {{ user.sub }}</p>
+    <p>Your password: {{ user.password }}</p>
+    <p>Your gender: {{ user.gender }}</p>
+    <p>Your text: {{ user.repeatType }}</p>
+    <br><br>
   </div>
 </div>
 

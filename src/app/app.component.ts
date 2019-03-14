@@ -11,15 +11,35 @@ export class AppComponent {
 
   defaultValue = 'advanced';
   submitted = false;
-  emailAddress;
-  sub;
-  password;
+  genders = ['male', 'female'];
+
+  user = {
+    emailAddress: '',
+    repeatType: '',
+    password: '',
+    sub: '',
+    answer: '',
+    gender: ''
+  };
+
+  suggestUserName() {
+    const suggestedEmail = 'test@testsuggested.com';
+    this.signupForm.form.patchValue({
+      userData: {
+        email: suggestedEmail
+      }
+    });
+  }
 
   onSubmit() {
     this.submitted = true;
-    this.emailAddress = this.signupForm.value.email;
-    this.sub = this.signupForm.value.subscriptions;
-    this.password = this.signupForm.value.pass;
+    this.user.emailAddress = this.signupForm.value.userData.email;
+    this.user.sub = this.signupForm.value.subscriptions;
+    this.user.password = this.signupForm.value.userData.pass;
+    this.user.gender = this.signupForm.value.genderSelected;
+    this.user.repeatType = this.signupForm.value.textRepeat;
+
+    console.log(this.signupForm);
 
     this.signupForm.reset();
   }
